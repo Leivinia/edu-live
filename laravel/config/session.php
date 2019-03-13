@@ -31,6 +31,7 @@ return [
 
     'lifetime' => env('SESSION_LIFETIME', 120),
 
+    //浏览器关闭销毁
     'expire_on_close' => true,
 
     /*

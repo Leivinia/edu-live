@@ -65,6 +65,7 @@ return [
     |
     */
 
+    // 'timezone' => 'UTC',
     'timezone' => 'PRC',
 
     /*
@@ -78,6 +79,7 @@ return [
     |
     */
 
+    // 'locale' => 'en',
     'locale' => 'zh-CN',
 
     /*
@@ -121,10 +123,13 @@ return [
 
     'providers' => [
 
+        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
+
+        #验证码
+        Mews\Captcha\CaptchaServiceProvider::class,
         /*
          * Laravel Framework Service Providers...
          */
-        Mews\Captcha\CaptchaServiceProvider::class,
         Illuminate\Auth\AuthServiceProvider::class,
         Illuminate\Broadcasting\BroadcastServiceProvider::class,
         Illuminate\Bus\BusServiceProvider::class,
@@ -175,7 +180,7 @@ return [
     */
 
     'aliases' => [
-
+        #验证码
         'Captcha' => Mews\Captcha\Facades\Captcha::class,
         'App' => Illuminate\Support\Facades\App::class,
         'Artisan' => Illuminate\Support\Facades\Artisan::class,

@@ -36,6 +36,12 @@ return [
     */
 
     'guards' => [
+        //声明Auth::guard(参数)中的参数
+        'admin' => [
+            'driver' => 'session', //声明存储方式
+            'provider' => 'admin', //声明使用哪个模型获取数据（注：需要在下面定义该标识
+        ],
+
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
@@ -45,10 +51,6 @@ return [
             'driver' => 'token',
             'provider' => 'users',
         ],
-        'admin' => [
-            'driver' => 'session',
-            'provider' => 'admin',
-        ]
     ],
 
     /*
@@ -69,15 +71,22 @@ return [
     */
 
     'providers' => [
+
+        //对应上面标识
+        'admin' => [
+            'driver' => 'eloquent',   //声明使用laravel的模型（eloquent）获取数据
+            'model' => App\Http\Models\Admin::class,  
+        ],
+
         'users' => [
             'driver' => 'eloquent',
             'model' => App\User::class,
         ],
 
-         'admin' => [
-             'driver' => 'eloquent',
-             'model' => App\Http\Models\Admin::class,
-         ]
+        // 'users' => [
+        //     'driver' => 'database',
+        //     'table' => 'users',
+        // ],
     ],
 
     /*

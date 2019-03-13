@@ -42,6 +42,11 @@ return [
     */
 
     'disks' => [
+        'uploads' => [
+            'driver' => 'local', //本地存储  后期会改成 七牛云存储
+            'root' => public_path('uploads'),  //声明存储目录
+        ],
+
 
         'local' => [
             'driver' => 'local',

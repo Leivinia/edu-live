@@ -5,7 +5,7 @@ namespace App\Http\Models;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 
-class Admin extends Model implements  \Illuminate\Contracts\Auth\Authenticatable
+class Admin extends Model implements \Illuminate\Contracts\Auth\Authenticatable
 {
     /**
      * 实现接口（Authenticatable）中的所有抽象方法
