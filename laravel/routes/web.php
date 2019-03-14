@@ -33,6 +33,12 @@ Route::group(['prefix'=>'admin','namespace'=>'Admin','middleware'=>'CheckLogin']
     Route::get('lesson/index', 'LessonController@index');
     Route::match(['get', 'post'], 'lesson/add', 'LessonController@add');
     Route::get('lesson/play/{lessonId}', 'LessonController@play');
+    Route::match(['get','post'],'admin/index','AdminController@index');
+    Route::get('auth/index','AuthController@index');
+    Route::match(['post','get'],'auth/add','AuthController@add');
+    Route::get('role/index','RoleController@index');
+    Route::match(['post','get'],'role/assignAuth/{roleid}','RoleController@assignAuth')->where('roleid','[1-9]+');
+
 });
 
 //TODO. 非项目代码 仅测试上传

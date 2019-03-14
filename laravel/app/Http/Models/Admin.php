@@ -17,4 +17,7 @@ class Admin extends Model implements \Illuminate\Contracts\Auth\Authenticatable
      * @var string
      */
     protected $table = 'admin';
+    public function role(){
+        return $this->hasOne('\App\Http\Models\Role','id','role_id');
+    }
 }
