@@ -10,20 +10,20 @@
     <meta http-equiv="Cache-Control" content="no-siteapp"/>
     <link rel="Bookmark" href="/favicon.ico">
     <link rel="Shortcut Icon" href="/favicon.ico"/>
-    <!--[if lt IE 9]>
-    <script type="text/javascript" src="{{asset('style/admin/lib')}}/html5shiv.js"></script>
-    <script type="text/javascript" src="{{asset('style/admin/lib')}}/respond.min.js"></script>
-    <![endif]-->
-    <link rel="stylesheet" type="text/css" href="{{asset('style/admin/static')}}/h-ui/css/H-ui.min.css"/>
-    <link rel="stylesheet" type="text/css" href="{{asset('style/admin/static')}}/h-ui.admin/css/H-ui.admin.css"/>
-    <link rel="stylesheet" type="text/css" href="{{asset('style/admin/lib')}}/Hui-iconfont/1.0.8/iconfont.css"/>
-    <link rel="stylesheet" type="text/css" href="{{asset('style/admin/static')}}/h-ui.admin/skin/default/skin.css"
+<!--[if lt IE 9]>
+<script type="text/javascript" src="{{ asset('style/admin/lib') }}/html5shiv.js"></script>
+<script type="text/javascript" src="{{ asset('style/admin/lib') }}/respond.min.js"></script>
+<![endif]-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('style/admin/static') }}/h-ui/css/H-ui.min.css"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('style/admin/static') }}/h-ui.admin/css/H-ui.admin.css"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('style/admin/lib') }}/Hui-iconfont/1.0.8/iconfont.css"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('style/admin/static') }}/h-ui.admin/skin/default/skin.css"
           id="skin"/>
-    <link rel="stylesheet" type="text/css" href="{{asset('style/admin/static')}}/h-ui.admin/css/style.css"/>
-    <!--[if IE 6]>
-    <script type="text/javascript" src="{{asset('style/admin/lib')}}/DD_belatedPNG_0.0.8a-min.js"></script>
-    <script>DD_belatedPNG.fix('*');</script>
-    <![endif]-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('style/admin/static') }}/h-ui.admin/css/style.css"/>
+<!--[if IE 6]>
+<script type="text/javascript" src="{{ asset('style/admin/lib') }}/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
     <!--/meta 作为公共模版分离出去-->
 
     <title>新建网站角色 - 管理员管理 - H-ui.admin v3.1</title>
@@ -33,32 +33,45 @@
 <body>
 <article class="page-container">
     <form action="" method="post" class="form form-horizontal" id="form-admin-role-add">
-        {{csrf_field()}}
+        {{ csrf_field() }}
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3">权限分配：</label>
+            <label class="form-label col-xs-4 col-sm-3">权限名称：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <dl class="permission-list">
                     <dt>
                         <label>
-                            <input type="checkbox" value="" name="user-Character-0" id="user-Character-0">
-                            全部权限</label>
+                            <input type="checkbox" value="" name="user-Character-0" id="user-Character-1">
+                            全选
+                        </label>
                     </dt>
                     <dd>
-                        @foreach($topAuths as $topAuth)
+                        @foreach ($topAuths as $topAuth)
                             <dl class="cl permission-list2">
                                 <dt>
                                     <label class="">
-                                        <input type="checkbox" value="" name="auth[]"
-                                               id="user-Character-0-0" {{in_array($topAuth->id,$authids)?'checked':''}}>
-                                        {{$topAuth->auth_name}}</label>
+                                        <input
+                                                type="checkbox"
+                                                value="{{$topAuth->id}}"
+                                                name="authIds[]"
+                                                id="user-Character-1-0"
+                                                {{ in_array($topAuth->id, $defaultAuthsArr) ? 'checked' : '' }}
+                                        >
+                                        {{ $topAuth->auth_name }}
+                                    </label>
                                 </dt>
                                 <dd>
-                                    @foreach($sonAuths as $sonAuth)
-                                        @if($topAuth->id==$sonAuth->pid)
+                                    @foreach ($sonAuths as $sonAuth)
+                                        @if ($topAuth->id == $sonAuth->pid)
                                             <label class="">
-                                                <input type="checkbox" name="auth[]" id="user-Character-0-0-0"
-                                                       value="{{$sonAuth->id}}" {{in_array($sonAuth->id,$authids)?'checked':''}}>
-                                                {{$sonAuth->auth_name}}</label>
+                                                <input
+                                                        type="checkbox"
+                                                        value="{{$sonAuth->id}}"
+                                                        name="authIds[]"
+                                                        id="user-Character-1-0-0"
+                                                        {{ in_array($sonAuth->id, $defaultAuthsArr) ? 'checked' : '' }}
+                                                >
+                                                {{ $sonAuth->auth_name }}
+                                            </label>
                                         @endif
                                     @endforeach
                                 </dd>
@@ -79,16 +92,18 @@
 </article>
 
 <!--_footer 作为公共模版分离出去-->
-<script type="text/javascript" src="{{asset('style/admin/lib')}}/jquery/1.9.1/jquery.min.js"></script>
-<script type="text/javascript" src="{{asset('style/admin/lib')}}/layer/2.4/layer.js"></script>
-<script type="text/javascript" src="{{asset('style/admin/static')}}/h-ui/js/H-ui.min.js"></script>
-<script type="text/javascript" src="{{asset('style/admin/static')}}/h-ui.admin/js/H-ui.admin.js"></script>
+<script type="text/javascript" src="{{ asset('style/admin/lib') }}/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="{{ asset('style/admin/lib') }}/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="{{ asset('style/admin/static') }}/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" src="{{ asset('style/admin/static') }}/h-ui.admin/js/H-ui.admin.js"></script>
 <!--/_footer 作为公共模版分离出去-->
 
 <!--请在下方写此页面业务相关的脚本-->
-<script type="text/javascript" src="{{asset('style/admin/lib')}}/jquery.validation/1.14.0/jquery.validate.js"></script>
-<script type="text/javascript" src="{{asset('style/admin/lib')}}/jquery.validation/1.14.0/validate-methods.js"></script>
-<script type="text/javascript" src="{{asset('style/admin/lib')}}/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript"
+        src="{{ asset('style/admin/lib') }}/jquery.validation/1.14.0/jquery.validate.js"></script>
+<script type="text/javascript"
+        src="{{ asset('style/admin/lib') }}/jquery.validation/1.14.0/validate-methods.js"></script>
+<script type="text/javascript" src="{{ asset('style/admin/lib') }}/jquery.validation/1.14.0/messages_zh.js"></script>
 <script type="text/javascript">
     $(function () {
         $(".permission-list dt input:checkbox").click(function () {
@@ -112,39 +127,39 @@
         });
 
         $("#form-admin-role-add").validate({
-            //设置验证规则
             rules: {},
-            //键盘按下是否验证：true-是，false-否
             onkeyup: false,
-            //验证失败去提示获取焦点：true-是，false-否
             focusCleanup: true,
             success: "valid",
-            //验证通过后的动作
             submitHandler: function (form) {
-                //发送异步请求
+
+                //整个表单发送请求
                 $(form).ajaxSubmit({
                     type: 'post',
-                    url: "{{url('admin/role/assignAuth',[request()->route('roleid')])}}",
+                    url: window.location.href,
                     success: function (data) {
-                        //请求成功处理
-                        //提示
                         if (data == 'success') {
                             layer.msg('添加成功!', {icon: 1, time: 1000});
+
+                            setTimeout(function () {
+                                parent.window.location.href = "{{url('admin/role/index')}}"
+                            }, 1500)
                         } else {
-                            layer.msg('添加失败!', {icon: 2, time: 1000});
+                            layer.msg(data, {icon: 2, time: 2000});
+
+                            setTimeout(function () {
+                                //请求完毕：不管成功失败 都要让用户可以继续点击
+                                $('#submitBtn').removeAttr('disabled');
+                                $('#submitBtn').val('重新提交');
+                            }, 2000)
                         }
-                        //刷新
-                        setTimeout(function () {
-                            parent.window.location.href = "{{ url('admin/role/index') }}";
-                        }, 1100);
-                        //关闭弹框
-                        //var index = parent.layer.getFrameIndex(window.name);
-                        //parent.$('.btn-refresh').click();
-                        //parent.layer.close(index);
                     },
                     error: function (XmlHttpRequest, textStatus, errorThrown) {
-                        //请求失败处理
-                        layer.msg('error2222!', {icon: 2, time: 1000});
+                        layer.msg('error!', {icon: 2, time: 1000});
+
+                        //请求完毕：不管成功失败 都要让用户可以继续点击
+                        $('#submitBtn').removeAttr('disabled');
+                        $('#submitBtn').val('重新提交.');
                     }
                 });
             }

@@ -5,36 +5,51 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Models\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Validator;
 
 /**
- * 后台权限管理
- * @author  phpopenfather
- * @package App\Http\Controllers\Admin
+ * 【RBAC】权限模块
+ * @author phpopenfather <[email address]>
  */
 class AuthController extends Controller
 {
-    //权限列表
-    public function index()
-    {
-        #步骤1：获取全部数据
-        $auths = Auth::paginate(10);
-        #步骤2：加载视图并传递数据
-        return view('admin.auth.index', compact('auths'));
-    }
+    #添加
     public function add(Request $request)
     {
-        if ($request->isMethod('post')){
-            $postData=$request->only('pid','auth_name','controller','action','is_nav');
-            $postData['action']=isset($postData['action'])?$postData['action']:'';
-
-            $rs=Auth::create($postData);
-            echo $rs?'success':'error';
-          }else{
-            #步骤2：查询数据
+        #1.判断提交方式
+        if ($request->isMethod('post')) {
+            #2.接受数据
+            $postData = $request->only('auth_name', 'controller', 'action', 'pid', 'is_nav');
+            #3.过滤
+            $validator = \Validator::make($postData, [
+                'auth_name' => 'required|min:2|max:8',
+                'controller' => 'required|min:2',
+                'action' => 'required|min:2',
+                'pid' => 'required',
+                'is_nav' => 'required'
+            ]);
+            if ($validator->fails()) {
+                echo $validator->errors()->first('stream_name');
+                return;
+            }
+            #4.入库
+            if ($postData['pid'] == 0) $postData['action'] = '';
+            $rs = Auth::create($postData);
+            #5.判断响应
+            echo $rs ? 'success' : 'error';
+        } else {
+            #2.获取所有顶级权限
             $topAuths = Auth::where('pid', 0)->get();
-            #步骤3：加载视图并传递数据
+            #3.加载视图
             return view('admin.auth.add', compact('topAuths'));
         }
+    }
+
+    #首页
+    public function index()
+    {
+        #1.获取所有管理员数据
+        $auths = Auth::get();
+        #2.加载视图
+        return view('admin.auth.index', compact('auths'));
     }
 }

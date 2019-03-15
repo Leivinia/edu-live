@@ -17,9 +17,9 @@
 Route::match(['get', 'post'], 'admin/login', 'Admin\LoginController@login');
 
 //TODO.访问的时候加前缀admin
-Route::group(['prefix'=>'admin','namespace'=>'Admin','middleware'=>'CheckLogin'], function() {
+Route::group(['prefix'=>'admin','namespace'=>'Admin','middleware'=> ['CheckLogin','CheckRBAC']], function() {
     #退出
-    Route::get('admin/logout', 'Admin\LoginController@logout');
+    Route::get('logout', 'LoginController@logout');
     #后台首页
 	Route::get('index/index', 'IndexController@index');
 	Route::get('index/welcome', 'IndexController@welcome');
@@ -33,12 +33,24 @@ Route::group(['prefix'=>'admin','namespace'=>'Admin','middleware'=>'CheckLogin']
     Route::get('lesson/index', 'LessonController@index');
     Route::match(['get', 'post'], 'lesson/add', 'LessonController@add');
     Route::get('lesson/play/{lessonId}', 'LessonController@play');
-    Route::match(['get','post'],'admin/index','AdminController@index');
-    Route::get('auth/index','AuthController@index');
-    Route::match(['post','get'],'auth/add','AuthController@add');
-    Route::get('role/index','RoleController@index');
-    Route::match(['post','get'],'role/assignAuth/{roleid}','RoleController@assignAuth')->where('roleid','[1-9]+');
-
+    ###直播课程
+    #直播流列表
+    Route::get('stream/index', 'StreamController@index');
+    Route::match(['get', 'post'], 'stream/add', 'StreamController@add');
+    #直播课程列表
+    Route::get('live/index', 'LiveController@index');
+    Route::match(['get', 'post'], 'live/add', 'LiveController@add');
+    ###RBAC
+    #管理员模块
+    Route::get('admin/index', 'AdminController@index');
+    #权限模块
+    Route::get('auth/index', 'AuthController@index');
+    Route::match(['get', 'post'], 'auth/add', 'AuthController@add');
+    #角色模块
+    Route::get('role/index', 'RoleController@index');
+    //Route::get('role/assignAuth', 'RoleController@assignAuth');
+    Route::match(['get', 'post'], 'role/assignAuth/{roleId}', 'RoleController@assignAuth');
+    Route:post('upload','UploadController@put');
 });
 
 //TODO. 非项目代码 仅测试上传

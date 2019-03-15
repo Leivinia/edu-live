@@ -45,7 +45,7 @@
 		</nav>
 		<nav id="Hui-userbar" class="nav navbar-nav navbar-userbar hidden-xs">
 			<ul class="cl">
-				<li>超级管理员</li>
+				<li>{{ Auth::guard('admin')->user()->role()->first()->role_name }}</li>
 				<li class="dropDown dropDown_hover">
 					<a href="#" class="dropDown_A">
 {{Auth::guard('admin')->user()->username}}

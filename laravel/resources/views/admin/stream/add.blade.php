@@ -25,53 +25,17 @@
 </head>
 <body>
 <article class="page-container">
-	<form class="form form-horizontal" id="form-admin-add"  enctype="multipart/form-data" >
+	<form class="form form-horizontal" id="form-admin-add" enctype="multipart/form-data" >
 		{{csrf_field()}}
 	<div class="row cl">
-		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>权限名称：</label>
+		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>直播流名称：</label>
 		<div class="formControls col-xs-8 col-sm-9">
-			<input type="text" class="input-text" value="" placeholder="" name="auth_name">
+			<input type="text" class="input-text" value="" placeholder="" name="stream_name">
 		</div>
-	</div>
-	<div class="row cl">
-		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>控制器名：</label>
-		<div class="formControls col-xs-8 col-sm-9">
-			<input type="text" class="input-text" autocomplete="off" name="controller">
-		</div>
-	</div>
-	<div class="row cl">
-		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>方法名：</label>
-		<div class="formControls col-xs-8 col-sm-9">
-			<input type="text" class="input-text" autocomplete="off" name="action">
-		</div>
-	</div>
-	<div class="row cl">
-		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>作为导航：</label>
-		<div class="formControls col-xs-8 col-sm-9 skin-minimal">
-			<div class="radio-box">
-				<input name="is_nav" value="1" type="radio" id="sex-1" checked>
-				<label for="sex-1">是</label>
-			</div>
-			<div class="radio-box">
-				<input name="is_nav" value="0" type="radio" id="sex-2">
-				<label for="sex-2">否</label>
-			</div>
-		</div>
-	</div>
-	<div class="row cl">
-		<label class="form-label col-xs-4 col-sm-3">上级权限：</label>
-		<div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
-		<select class="select" name="pid" size="1">
-			<option value="0">默认添加顶级权限</option>
-			@foreach($topAuths as $topAuth)
-				<option value="{{$topAuth->id}}">{{$topAuth->auth_name}}</option>
-			@endforeach
-		</select>
-	</span> </div>
 	</div>
 	<div class="row cl">
 		<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
-			<input class="btn btn-primary radius" id="submitBtn"  type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+			<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
 		</div>
 	</div>
 	</form>
@@ -101,19 +65,11 @@ $(function(){
 	$("#form-admin-add").validate({
 		//声明验证规则
 		rules:{
-            auth_name:{
+            stream_name:{
 				required:true,
 				minlength:4,
 				maxlength:16
-			},
-            controller:{
-                required:true,
-                minlength:2,
-            },
-            action:{
-                required:true,
-                minlength:2,
-            }
+			}
 		},
 		//当键盘松开验证
 		onkeyup: true,
@@ -122,38 +78,22 @@ $(function(){
 		success:"valid",
 		//验证通过触发
 		submitHandler:function(form){
-
-		    //第一次：点击禁用提交按钮
-		    $('#submitBtn').attr('disabled', 'disabled');
-		    $('#submitBtn').val('请求中...');
-
 		    //整个表单发送请求
 			$(form).ajaxSubmit({
 				type: 'post',
-				url: "{{ url('admin/auth/add') }}" ,
+				url: "{{ url('admin/stream/add') }}" ,
 				success: function(data){
 				    if (data == 'success') {
                         layer.msg('添加成功!',{icon:1,time:1000});
-
                         setTimeout(function() {
-                            parent.window.location.href = "{{url('admin/auth/index')}}"
-                        }, 1500)
+                            parent.window.location.href = "{{url('admin/stream/index')}}"
+                        }, 2000)
 					} else {
                         layer.msg(data,{icon:2,time:2000});
-
-                        setTimeout(function() {
-                            //请求完毕：不管成功失败 都要让用户可以继续点击
-                            $('#submitBtn').removeAttr('disabled');
-                            $('#submitBtn').val('重新提交');
-                        }, 2000)
 					}
 				},
                 error: function(XmlHttpRequest, textStatus, errorThrown){
-					layer.msg('error!',{icon:2,time:1000});
-
-                    //请求完毕：不管成功失败 都要让用户可以继续点击
-                    $('#submitBtn').removeAttr('disabled');
-                    $('#submitBtn').val('重新提交.');
+					layer.msg('error!',{icon:2,time:2000});
 				}
 			});
 			// //关闭弹框
