@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateZhiboTable extends Migration
+class CreateZhizhiTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,6 @@ class CreateZhiboTable extends Migration
      */
     public function up()
     {
-        //创建直播流表
         Schema::create('stream', function (Blueprint $table) {
             $table->increments('id');
             $table->string('stream_name')->comment('直播流名称');
@@ -22,7 +21,7 @@ class CreateZhiboTable extends Migration
             $table->unsignedInteger('created_at')->default(0)->comment('创建于');
             $table->unsignedInteger('updated_at')->default(0)->comment('创建于');
         });
-        //创建直播课程表
+//创建直播课程表
         Schema::create('live', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('stream_id')->comment('所属直播流');
@@ -42,6 +41,6 @@ class CreateZhiboTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('zhibo');
+        Schema::dropIfExists('zhizhi');
     }
 }

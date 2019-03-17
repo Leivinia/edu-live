@@ -11,13 +11,14 @@
 |
 */
 
+Route::get('/','Home\IndexController@index');
 
 ###后台
 #登录
 Route::match(['get', 'post'], 'admin/login', 'Admin\LoginController@login');
 
 //TODO.访问的时候加前缀admin
-Route::group(['prefix'=>'admin','namespace'=>'Admin','middleware'=> ['CheckLogin','CheckRBAC']], function() {
+Route::group(['prefix'=>'admin','namespace'=>'Admin','middleware'=> ['CheckLogin']], function() {
     #退出
     Route::get('logout', 'LoginController@logout');
     #后台首页
@@ -50,17 +51,17 @@ Route::group(['prefix'=>'admin','namespace'=>'Admin','middleware'=> ['CheckLogin
     Route::get('role/index', 'RoleController@index');
     //Route::get('role/assignAuth', 'RoleController@assignAuth');
     Route::match(['get', 'post'], 'role/assignAuth/{roleId}', 'RoleController@assignAuth');
-    Route:post('upload','UploadController@put');
+    Route::post('upload','UploadController@put');
+
+    Route::get('paper/index','PaperController@index');
+    Route::match(['get','post'],'paper/add','PaperController@add');
+    Route::get('question/index','QuestionController@index');
+
 });
 
 //TODO. 非项目代码 仅测试上传
 Route::any('day4/t6', 'Admin\Day4Controller@t6');
 
-Route::get('/', function () {
+Route::get('paper/{paperid}','Home\PaperController@index');
 
-    // config(文件名.键.键n)
-    echo config('filesystems.disks.uploads.root');
-    die;
-    return view('welcome');
-});
 
